@@ -1,0 +1,8 @@
+# Painel interno: nunca indexar, sem listagem de diretório, arquivos internos (_*.php) bloqueados.
+Options -Indexes
+<IfModule mod_headers.c>
+  Header always set X-Robots-Tag "noindex, nofollow"
+</IfModule>
+<FilesMatch "^_">
+  Require all denied
+</FilesMatch>

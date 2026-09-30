@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /painel/
+Disallow: /api/
+Disallow: /obrigado/
+
+Sitemap: https://sitesbrasilia.com.br/sitemap.xml
