@@ -4,4 +4,4 @@ Disallow: /painel/
 Disallow: /api/
 Disallow: /obrigado/
 
-Sitemap: https://sitesbrasilia.com.br/sitemap.xml
+Sitemap: https://www.sitesbrasilia.com.br/sitemap.xml

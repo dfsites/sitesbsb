@@ -13,7 +13,7 @@ require __DIR__ . '/_lib/bootstrap.php';
 
 const AN_MAX_BYTES = 3_000_000;
 const AN_TIMEOUT = 12;
-const AN_UA = 'Mozilla/5.0 (compatible; SitesBrasiliaAnalisador/1.0; +https://sitesbrasilia.com.br/analisar-site/)';
+const AN_UA = 'Mozilla/5.0 (compatible; SitesBrasiliaAnalisador/1.0; +https://www.sitesbrasilia.com.br/analisar-site/)';
 
 if (!function_exists('curl_init')) sb_json(503, ['ok' => false, 'error' => 'Analisador indisponível no momento.']);
 
@@ -40,13 +40,37 @@ function an_target(string $url) {
     $host = strtolower(rtrim($p['host'], '.'));
     if (filter_var($host, FILTER_VALIDATE_IP)) return 'Informe o domínio do site, não um endereço IP.';
     if (!preg_match('/^(?=.{4,253}$)([a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/i', idn_host($host))) return 'Domínio inválido.';
-    $ips = @gethostbynamel(idn_host($host));
+    $ips = an_resolve(idn_host($host));
     if (!$ips) return 'Não encontramos esse domínio. Confira se foi digitado corretamente.';
     foreach ($ips as $ip) {
         if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) return 'Endereço não permitido.';
     }
     $path = ($p['path'] ?? '/') . (isset($p['query']) ? '?' . $p['query'] : '');
     return [$scheme . '://' . $host . ($path === '' ? '/' : $path), $host, $port, $ips[0]];
+}
+
+/**
+ * Resolve o host por DNS PÚBLICO (DNS-over-HTTPS do Google), com cache por requisição.
+ * Motivo: dentro da hospedagem, domínios hospedados no mesmo provedor resolvem para IPs internos,
+ * o que faria o analisador recusar sites legítimos. Conectamos sempre no IP público validado.
+ * Se o DoH falhar, cai no resolvedor do sistema (e IPs privados continuam bloqueados).
+ */
+function an_resolve(string $host): array {
+    static $cache = [];
+    if (isset($cache[$host])) return $cache[$host];
+    $ips = [];
+    $ch = curl_init('https://dns.google/resolve?type=A&name=' . rawurlencode($host));
+    curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 5, CURLOPT_CONNECTTIMEOUT => 3, CURLOPT_PROTOCOLS => CURLPROTO_HTTPS]);
+    $res = curl_exec($ch);
+    curl_close($ch);
+    $j = is_string($res) ? json_decode($res, true) : null;
+    if (is_array($j) && ($j['Status'] ?? 1) === 0) {
+        foreach ($j['Answer'] ?? [] as $a) {
+            if (($a['type'] ?? 0) === 1 && filter_var($a['data'] ?? '', FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) $ips[] = $a['data'];
+        }
+    }
+    if (!$ips) $ips = @gethostbynamel($host) ?: [];
+    return $cache[$host] = $ips;
 }
 
 function idn_host(string $h): string {

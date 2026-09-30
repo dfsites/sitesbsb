@@ -71,7 +71,7 @@ try {
     if (!empty($cfg['notify_email']) && !sb_is_local()) {
         $subject = '=?UTF-8?B?' . base64_encode("Novo contato #$id — " . (SB_SERVICOS[$servico] ?? $servico)) . '?=';
         $body = "Novo contato pelo site.\n\nNome: $nome\nEmpresa: $empresa\nWhatsApp: $whatsapp\nE-mail: $email\nServiço: " . (SB_SERVICOS[$servico] ?? $servico)
-            . "\nSite atual: $siteAtual\n\nMensagem:\n$mensagem\n\nVer no painel: https://sitesbrasilia.com.br/painel/lead.php?id=$id\n";
+            . "\nSite atual: $siteAtual\n\nMensagem:\n$mensagem\n\nVer no painel: https://www.sitesbrasilia.com.br/painel/lead.php?id=$id\n";
         $from = $cfg['mail_from'] ?? $cfg['notify_email'];
         $headers = "From: Sites Brasília <$from>\r\nReply-To: $email\r\nContent-Type: text/plain; charset=UTF-8";
         @mail($cfg['notify_email'], $subject, $body, $headers);

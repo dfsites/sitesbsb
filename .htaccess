@@ -6,10 +6,10 @@ ErrorDocument 404 /404.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # HTTPS + domínio canônico sem www (mesmo comportamento da versão anterior)
-  RewriteCond %{HTTPS} !=on [OR]
-  RewriteCond %{HTTP_HOST} ^www\. [NC]
-  RewriteRule ^ https://sitesbrasilia.com.br%{REQUEST_URI} [R=301,L]
+  # HTTPS + domínio canônico COM www (decisão do proprietário em 30/09/2026)
+  RewriteCond %{HTTPS} off [OR]
+  RewriteCond %{HTTP_HOST} !^www\.sitesbrasilia\.com\.br$ [NC]
+  RewriteRule ^ https://www.sitesbrasilia.com.br%{REQUEST_URI} [R=301,L]
 
   # Endereço do formulário da versão anterior (SPA) → novo endpoint
   RewriteRule ^enviar\.php$ /api/contato.php [R=307,L]
