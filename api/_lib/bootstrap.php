@@ -146,9 +146,14 @@ const SB_STATUS = [
 const SB_SERVICOS = [
     'site' => 'Site institucional',
     'landing' => 'Landing page',
-    'hospedagem' => 'Hospedagem gerenciada',
-    'manutencao' => 'Manutenção',
+    'app' => 'Aplicativo / sistema',
+    'traducao' => 'Site multilíngue / tradução',
     'seo' => 'SEO',
+    'google' => 'Google Meu Negócio',
+    'redes' => 'Redes sociais',
+    'hospedagem' => 'Hospedagem gerenciada',
+    'dominio' => 'Registro de domínio',
+    'manutencao' => 'Manutenção',
     'automacao' => 'Automação',
     'outro' => 'Outro / não sabe',
 ];

@@ -85,7 +85,7 @@ function painel_head(string $title, ?string $user = null): void { ?>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title><?= e($title) ?> · Painel Sites Brasília</title>
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml">
 <link rel="stylesheet" href="/painel/painel.css">
 </head>
 <body>
