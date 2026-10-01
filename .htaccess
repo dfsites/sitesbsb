@@ -15,6 +15,9 @@ ErrorDocument 403 /404.html
   # Cases de condomínios consolidados em um só (01/10/2026)
   RewriteRule ^portfolio/condominio-(damha-brasilia|le-grand-jardin|le-jardin|alphaville-df|quatro-estacoes|via-horizonte)/?$ /portfolio/sites-de-condominios/ [R=301,L]
 
+  # Sites multilíngues virou Tradução de sites (01/10/2026)
+  RewriteRule ^sites-multilingues/?$ /traducao-de-sites/ [R=301,L]
+
   # Página de trajetória removida (01/10/2026)
   RewriteRule ^trajetoria/?$ /sobre/ [R=301,L]
 
