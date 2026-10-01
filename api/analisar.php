@@ -13,7 +13,7 @@ require __DIR__ . '/_lib/bootstrap.php';
 
 const AN_MAX_BYTES = 3_000_000;
 const AN_TIMEOUT = 12;
-const AN_UA = 'Mozilla/5.0 (compatible; SitesBrasiliaAnalisador/1.0; +https://www.sitesbrasilia.com.br/analisar-site/)';
+const AN_UA = 'Mozilla/5.0 (compatible; SitesBrasiliaAnalisador/1.0; +https://sitesbrasilia.com.br/analisar-site/)';
 
 if (!function_exists('curl_init')) sb_json(503, ['ok' => false, 'error' => 'Analisador indisponível no momento.']);
 

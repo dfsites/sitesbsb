@@ -7,10 +7,10 @@ ErrorDocument 403 /404.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # HTTPS + domínio canônico COM www (decisão do proprietário em 30/09/2026)
+  # HTTPS + domínio canônico SEM www (decisão do proprietário em 01/10/2026; versão que o Google já indexa)
   RewriteCond %{HTTPS} off [OR]
-  RewriteCond %{HTTP_HOST} !^www\.sitesbrasilia\.com\.br$ [NC]
-  RewriteRule ^ https://www.sitesbrasilia.com.br%{REQUEST_URI} [R=301,L]
+  RewriteCond %{HTTP_HOST} !^sitesbrasilia\.com\.br$ [NC]
+  RewriteRule ^ https://sitesbrasilia.com.br%{REQUEST_URI} [R=301,L]
 
   # Cases de condomínios consolidados em um só (01/10/2026)
   RewriteRule ^portfolio/condominio-(damha-brasilia|le-grand-jardin|le-jardin|alphaville-df|quatro-estacoes|via-horizonte)/?$ /portfolio/sites-de-condominios/ [R=301,L]

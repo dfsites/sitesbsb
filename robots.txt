@@ -1,7 +1,131 @@
+# Política: rastreamento público liberado para buscadores, IAs e crawlers compatíveis com robots.txt.
+# Áreas internas (painel, API e confirmação de envio) não são públicas.
+
+# Regra geral: libera qualquer crawler atual ou futuro que respeite robots.txt
 User-agent: *
 Allow: /
 Disallow: /painel/
 Disallow: /api/
 Disallow: /obrigado/
 
-Sitemap: https://www.sitesbrasilia.com.br/sitemap.xml
+# Google Search
+User-agent: Googlebot
+Allow: /
+Disallow: /painel/
+Disallow: /api/
+Disallow: /obrigado/
+
+# Outros crawlers do ecossistema Google
+User-agent: GoogleOther
+Allow: /
+Disallow: /painel/
+Disallow: /api/
+Disallow: /obrigado/
+
+# Gemini / Google AI
+User-agent: Google-Extended
+Allow: /
+Disallow: /painel/
+Disallow: /api/
+Disallow: /obrigado/
+
+# Bing / Microsoft
+User-agent: bingbot
+Allow: /
+Disallow: /painel/
+Disallow: /api/
+Disallow: /obrigado/
+
+# OpenAI: ChatGPT Search
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /painel/
+Disallow: /api/
+Disallow: /obrigado/
+
+# OpenAI: treinamento de modelos
+User-agent: GPTBot
+Allow: /
+Disallow: /painel/
+Disallow: /api/
+Disallow: /obrigado/
+
+# OpenAI: acessos iniciados pelo usuário
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /painel/
+Disallow: /api/
+Disallow: /obrigado/
+
+# OpenAI: validação de páginas de anúncios
+User-agent: OAI-AdsBot
+Allow: /
+Disallow: /painel/
+Disallow: /api/
+Disallow: /obrigado/
+
+# Anthropic: Claude
+User-agent: ClaudeBot
+Allow: /
+Disallow: /painel/
+Disallow: /api/
+Disallow: /obrigado/
+
+# Anthropic: Claude Search
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /painel/
+Disallow: /api/
+Disallow: /obrigado/
+
+# Anthropic: acessos iniciados pelo usuário
+User-agent: Claude-User
+Allow: /
+Disallow: /painel/
+Disallow: /api/
+Disallow: /obrigado/
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+Disallow: /painel/
+Disallow: /api/
+Disallow: /obrigado/
+
+# Perplexity: acessos iniciados pelo usuário
+User-agent: Perplexity-User
+Allow: /
+Disallow: /painel/
+Disallow: /api/
+Disallow: /obrigado/
+
+# Meta AI / Facebook
+User-agent: Meta-ExternalAgent
+Allow: /
+Disallow: /painel/
+Disallow: /api/
+Disallow: /obrigado/
+
+# Meta AI / Facebook
+User-agent: Meta-ExternalFetcher
+Allow: /
+Disallow: /painel/
+Disallow: /api/
+Disallow: /obrigado/
+
+# Facebook: prévias de links
+User-agent: facebookexternalhit
+Allow: /
+Disallow: /painel/
+Disallow: /api/
+Disallow: /obrigado/
+
+# Facebook
+User-agent: Facebot
+Allow: /
+Disallow: /painel/
+Disallow: /api/
+Disallow: /obrigado/
+
+# Sitemap principal
+Sitemap: https://sitesbrasilia.com.br/sitemap.xml
