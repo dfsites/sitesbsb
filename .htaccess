@@ -2,6 +2,7 @@
 Options -Indexes
 DirectoryIndex index.html index.php
 ErrorDocument 404 /404.html
+ErrorDocument 403 /404.html
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -10,6 +11,13 @@ ErrorDocument 404 /404.html
   RewriteCond %{HTTPS} off [OR]
   RewriteCond %{HTTP_HOST} !^www\.sitesbrasilia\.com\.br$ [NC]
   RewriteRule ^ https://www.sitesbrasilia.com.br%{REQUEST_URI} [R=301,L]
+
+  # Cases de condomínios consolidados em um só (01/10/2026)
+  RewriteRule ^portfolio/condominio-(damha-brasilia|le-grand-jardin|le-jardin|alphaville-df|quatro-estacoes|via-horizonte)/?$ /portfolio/sites-de-condominios/ [R=301,L]
+
+  # /index.html (e /pasta/index.html) → URL canônica com barra
+  RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L]
 
   # Endereço do formulário da versão anterior (SPA) → novo endpoint
   RewriteRule ^enviar\.php$ /api/contato.php [R=307,L]
@@ -24,6 +32,8 @@ ErrorDocument 404 /404.html
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header always set Strict-Transport-Security "max-age=31536000"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://www.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; font-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'"
   <FilesMatch "\.(html)$">
     Header set Cache-Control "public, max-age=0, must-revalidate"
   </FilesMatch>

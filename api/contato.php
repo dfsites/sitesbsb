@@ -41,8 +41,12 @@ try {
 
     $nome = $in('nome', 120);
     $empresa = $in('empresa', 160);
-    $whatsapp = preg_replace('/\D+/', '', $in('whatsapp', 30)) ?? '';
-    if (strlen($whatsapp) >= 12 && str_starts_with($whatsapp, '55')) $whatsapp = substr($whatsapp, 2);
+    // Campo "Telefone" (opcional). Com "+" e código de país diferente de 55, guarda como internacional ("+dígitos").
+    $rawPhone = $in('whatsapp', 30);
+    $whatsapp = preg_replace('/\D+/', '', $rawPhone) ?? '';
+    if ($whatsapp !== '' && str_starts_with(ltrim($rawPhone), '+')) {
+        $whatsapp = str_starts_with($whatsapp, '55') ? substr($whatsapp, 2) : '+' . $whatsapp;
+    }
     $email = $in('email', 160);
     $servico = $in('servico', 30);
     $siteAtual = $in('site_atual', 300);
@@ -52,7 +56,8 @@ try {
 
     $errors = [];
     if (mb_strlen($nome) < 2) $errors['nome'] = 'Informe seu nome.';
-    if (strlen($whatsapp) < 10 || strlen($whatsapp) > 11) $errors['whatsapp'] = 'WhatsApp inválido.';
+    $phoneDigits = ltrim($whatsapp, '+');
+    if ($whatsapp !== '' && (strlen($phoneDigits) < 8 || strlen($phoneDigits) > 15)) $errors['whatsapp'] = 'Telefone inválido.';
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors['email'] = 'E-mail inválido.';
     if (!array_key_exists($servico, SB_SERVICOS)) $errors['servico'] = 'Selecione o serviço.';
     if ($siteAtual !== '' && !preg_match('#^https?://[^\s.]+\.[^\s]{2,}$#i', $siteAtual)) $errors['site_atual'] = 'Endereço inválido.';
@@ -70,7 +75,7 @@ try {
     $cfg = sb_config();
     if (!empty($cfg['notify_email']) && !sb_is_local()) {
         $subject = '=?UTF-8?B?' . base64_encode("Novo contato #$id — " . (SB_SERVICOS[$servico] ?? $servico)) . '?=';
-        $body = "Novo contato pelo site.\n\nNome: $nome\nEmpresa: $empresa\nWhatsApp: $whatsapp\nE-mail: $email\nServiço: " . (SB_SERVICOS[$servico] ?? $servico)
+        $body = "Novo contato pelo site.\n\nNome: $nome\nEmpresa: $empresa\nTelefone: $whatsapp\nE-mail: $email\nServiço: " . (SB_SERVICOS[$servico] ?? $servico)
             . "\nSite atual: $siteAtual\n\nMensagem:\n$mensagem\n\nVer no painel: https://www.sitesbrasilia.com.br/painel/lead.php?id=$id\n";
         $from = $cfg['mail_from'] ?? $cfg['notify_email'];
         $headers = "From: Sites Brasília <$from>\r\nReply-To: $email\r\nContent-Type: text/plain; charset=UTF-8";

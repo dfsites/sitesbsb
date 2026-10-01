@@ -68,7 +68,7 @@ painel_head('Contatos', $user);
       <td data-label="Recebido"><?= e(br_date($r['created_at'])) ?></td>
       <td data-label="Nome"><a href="/painel/lead.php?id=<?= (int)$r['id'] ?>"><?= e($r['nome']) ?></a><?php if ($r['empresa']): ?><br><span class="muted"><?= e($r['empresa']) ?></span><?php endif; ?></td>
       <td data-label="Serviço"><?= e(SB_SERVICOS[$r['servico']] ?? $r['servico']) ?></td>
-      <td data-label="Contato"><a href="<?= e(wa_link($r['whatsapp'], $r['nome'])) ?>" target="_blank" rel="noopener"><?= e(fmt_phone($r['whatsapp'])) ?></a><br><a href="mailto:<?= e($r['email']) ?>"><?= e($r['email']) ?></a></td>
+      <td data-label="Contato"><?php if ($r['whatsapp'] !== ''): ?><a href="<?= e(wa_link($r['whatsapp'], $r['nome'])) ?>" target="_blank" rel="noopener"><?= e(fmt_phone($r['whatsapp'])) ?></a><br><?php endif; ?><a href="mailto:<?= e($r['email']) ?>"><?= e($r['email']) ?></a></td>
       <td data-label="Status"><span class="badge st-<?= e($r['status']) ?>"><?= e(SB_STATUS[$r['status']] ?? $r['status']) ?></span></td>
     </tr>
   <?php endforeach; ?>

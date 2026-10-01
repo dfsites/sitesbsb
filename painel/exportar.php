@@ -20,7 +20,7 @@ header('Content-Type: text/csv; charset=utf-8');
 header('Content-Disposition: attachment; filename="contatos-sitesbrasilia-' . gmdate('Y-m-d') . '.csv"');
 $out = fopen('php://output', 'w');
 fwrite($out, "\xEF\xBB\xBF"); // BOM para o Excel reconhecer UTF-8
-fputcsv($out, ['ID', 'Recebido (Brasília)', 'Status', 'Nome', 'Empresa', 'WhatsApp', 'E-mail', 'Serviço', 'Site atual', 'Mensagem', 'Página de origem', 'UTM'], ';');
+fputcsv($out, ['ID', 'Recebido (Brasília)', 'Status', 'Nome', 'Empresa', 'Telefone', 'E-mail', 'Serviço', 'Site atual', 'Mensagem', 'Página de origem', 'UTM'], ';');
 while ($r = $st->fetch()) {
     fputcsv($out, array_map($safe, [
         $r['id'], br_date($r['created_at']), SB_STATUS[$r['status']] ?? $r['status'], $r['nome'], $r['empresa'], fmt_phone($r['whatsapp']),

@@ -66,7 +66,7 @@ painel_head('Contato #' . $id, $user);
     <dl>
       <dt>Recebido</dt><dd><?= e(br_date($lead['created_at'])) ?></dd>
       <?php if ($lead['empresa']): ?><dt>Empresa</dt><dd><?= e($lead['empresa']) ?></dd><?php endif; ?>
-      <dt>WhatsApp</dt><dd><a href="<?= e(wa_link($lead['whatsapp'], $lead['nome'])) ?>" target="_blank" rel="noopener"><?= e(fmt_phone($lead['whatsapp'])) ?></a></dd>
+      <?php if ($lead['whatsapp'] !== ''): ?><dt>Telefone</dt><dd><a href="<?= e(wa_link($lead['whatsapp'], $lead['nome'])) ?>" target="_blank" rel="noopener"><?= e(fmt_phone($lead['whatsapp'])) ?></a> <span class="muted small">(abre no WhatsApp)</span></dd><?php endif; ?>
       <dt>E-mail</dt><dd><a href="mailto:<?= e($lead['email']) ?>"><?= e($lead['email']) ?></a></dd>
       <dt>Serviço</dt><dd><?= e(SB_SERVICOS[$lead['servico']] ?? $lead['servico']) ?></dd>
       <?php if ($lead['site_atual']): ?><dt>Site atual</dt><dd><a href="<?= e($lead['site_atual']) ?>" target="_blank" rel="noopener noreferrer"><?= e($lead['site_atual']) ?></a></dd><?php endif; ?>

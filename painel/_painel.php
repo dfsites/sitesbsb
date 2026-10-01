@@ -68,11 +68,14 @@ function br_date(?string $utc): string {
 }
 
 function wa_link(string $digits, string $nome): string {
+    if ($digits === '') return '';
     $msg = rawurlencode("Olá, $nome! Aqui é do Sites Brasília, recebemos seu contato pelo site.");
-    return 'https://wa.me/55' . $digits . '?text=' . $msg;
+    $intl = str_starts_with($digits, '+') ? substr($digits, 1) : '55' . $digits;
+    return 'https://wa.me/' . $intl . '?text=' . $msg;
 }
 
 function fmt_phone(string $d): string {
+    if (str_starts_with($d, '+')) return $d;
     return strlen($d) === 11 ? sprintf('(%s) %s-%s', substr($d, 0, 2), substr($d, 2, 5), substr($d, 7))
         : (strlen($d) === 10 ? sprintf('(%s) %s-%s', substr($d, 0, 2), substr($d, 2, 4), substr($d, 6)) : $d);
 }
