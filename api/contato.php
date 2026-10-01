@@ -47,20 +47,24 @@ try {
     if ($whatsapp !== '' && str_starts_with(ltrim($rawPhone), '+')) {
         $whatsapp = str_starts_with($whatsapp, '55') ? substr($whatsapp, 2) : '+' . $whatsapp;
     }
+    // Campo opcional: sem validação de formato. Sem dígitos, guarda o que a pessoa digitou.
+    if ($whatsapp === '') $whatsapp = $rawPhone;
     $email = $in('email', 160);
     $servico = $in('servico', 30);
     $siteAtual = $in('site_atual', 300);
     $mensagem = $in('mensagem', 3000);
+    // Sites de referência (concorrentes ou sites de que a pessoa gosta): vão junto da mensagem
+    $referencias = $in('referencias', 1000);
+    if ($referencias !== '') $mensagem = trim($mensagem . "\n\nSites de referência: " . $referencias);
+    // Site atual (opcional, sem validação): domínio sem protocolo ganha https://
+    if ($siteAtual !== '' && !preg_match('#^[a-z][a-z0-9+.-]*://#i', $siteAtual) && preg_match('#^[^\s/]+\.[^\s]+$#', $siteAtual)) $siteAtual = 'https://' . $siteAtual;
     $origem = $in('origem', 300);
     $utm = $in('utm', 500);
 
     $errors = [];
     if (mb_strlen($nome) < 2) $errors['nome'] = 'Informe seu nome.';
-    $phoneDigits = ltrim($whatsapp, '+');
-    if ($whatsapp !== '' && (strlen($phoneDigits) < 8 || strlen($phoneDigits) > 15)) $errors['whatsapp'] = 'Telefone inválido.';
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors['email'] = 'E-mail inválido.';
     if (!array_key_exists($servico, SB_SERVICOS)) $errors['servico'] = 'Selecione o serviço.';
-    if ($siteAtual !== '' && !preg_match('#^https?://[^\s.]+\.[^\s]{2,}$#i', $siteAtual)) $errors['site_atual'] = 'Endereço inválido.';
     if ($utm !== '' && json_decode($utm, true) === null) $utm = '';
     if ($errors) finish($wantsJson, 422, ['ok' => false, 'error' => 'Revise os campos.', 'fields' => $errors]);
 

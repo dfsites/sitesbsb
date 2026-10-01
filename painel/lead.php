@@ -69,7 +69,7 @@ painel_head('Contato #' . $id, $user);
       <?php if ($lead['whatsapp'] !== ''): ?><dt>Telefone</dt><dd><a href="<?= e(wa_link($lead['whatsapp'], $lead['nome'])) ?>" target="_blank" rel="noopener"><?= e(fmt_phone($lead['whatsapp'])) ?></a> <span class="muted small">(abre no WhatsApp)</span></dd><?php endif; ?>
       <dt>E-mail</dt><dd><a href="mailto:<?= e($lead['email']) ?>"><?= e($lead['email']) ?></a></dd>
       <dt>Serviço</dt><dd><?= e(SB_SERVICOS[$lead['servico']] ?? $lead['servico']) ?></dd>
-      <?php if ($lead['site_atual']): ?><dt>Site atual</dt><dd><a href="<?= e($lead['site_atual']) ?>" target="_blank" rel="noopener noreferrer"><?= e($lead['site_atual']) ?></a></dd><?php endif; ?>
+      <?php if ($lead['site_atual']): ?><dt>Site atual</dt><dd><?php if (preg_match('#^https?://#i', $lead['site_atual'])): ?><a href="<?= e($lead['site_atual']) ?>" target="_blank" rel="noopener noreferrer"><?= e($lead['site_atual']) ?></a><?php else: ?><?= e($lead['site_atual']) ?><?php endif; ?></dd><?php endif; ?>
     </dl>
     <?php if ($lead['mensagem']): ?><h3>Mensagem</h3><p class="msg"><?= nl2br(e($lead['mensagem'])) ?></p><?php endif; ?>
     <h3>Origem</h3>
