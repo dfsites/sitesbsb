@@ -15,6 +15,9 @@ ErrorDocument 403 /404.html
   # Cases de condomínios consolidados em um só (01/10/2026)
   RewriteRule ^portfolio/condominio-(damha-brasilia|le-grand-jardin|le-jardin|alphaville-df|quatro-estacoes|via-horizonte)/?$ /portfolio/sites-de-condominios/ [R=301,L]
 
+  # Página de trajetória removida (01/10/2026)
+  RewriteRule ^trajetoria/?$ /sobre/ [R=301,L]
+
   # /index.html (e /pasta/index.html) → URL canônica com barra
   RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html[\s?] [NC]
   RewriteRule ^ /%1 [R=301,L]
